@@ -1,7 +1,7 @@
 {% extends "website/modelo2.html" %}
 
 {% block breadcrumb %}
-<li class="breadcrumb-item"><a href="{% url 'jogador-list' %}">Jogadores</a></li>
+<li class="breadcrumb-item"><a href="{% url 'paciente-list' %}">Pacientes</a></li>
 <li class="breadcrumb-item active" aria-current="page">Detalhes</li>
 {% endblock breadcrumb %}
 
@@ -19,7 +19,7 @@
                     </div>
                     <div>
                         <h4 class="mb-0">{{ object.nome }}</h4>
-                        <span class="text-muted">Nick: @{{ object.id_jogador }}</span>
+                        <span class="text-muted">ID: @{{ object.id_jogador }}</span>
                     </div>
                 </div>
                 <hr class="text-muted">
