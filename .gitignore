@@ -1,0 +1,28 @@
+# Ambiente virtual
+AssistenteWeb/
+venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Banco local
+db.sqlite3
+
+# VSCode
+.vscode/
+
+# Sistema
+.DS_Store
+
+# Migrações compiladas
+**/__pycache__/
+
+# Logs
+*.log
+
+# Arquivos .env
+.env
