@@ -401,3 +401,146 @@ class EspecialidadeList(ListView):
 class EspecialidadeDetail(DetailView):
     model = Especialidade
     template_name = 'campeonato/detail/modalidade.html'
+
+
+##########################################################
+# Views para Medico, Consulta e Atendimento
+
+
+class MedicoCreate(CreateView):
+    model = None
+    # model will be set lazily to avoid circular imports at module import time
+    def get_model(self):
+        from .models import Medico
+        return Medico
+    def get(self, request, *args, **kwargs):
+        self.model = self.get_model()
+        return super().get(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        self.model = self.get_model()
+        return super().post(request, *args, **kwargs)
+    fields = ['nome', 'usuario']
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('medico-list')
+    extra_context = {
+        'titulo': 'Cadastro de Médico',
+        'botao': 'Criar Médico'
+    }
+
+
+class MedicoUpdate(MedicoCreate, UpdateView):
+    success_url = reverse_lazy('medico-list')
+    extra_context = {
+        'titulo': 'Editar dados do Médico',
+        'botao': 'Atualizar Médico'
+    }
+
+
+class MedicoDelete(DeleteView):
+    model = None
+    def get_model(self):
+        from .models import Medico
+        return Medico
+    def dispatch(self, request, *args, **kwargs):
+        self.model = self.get_model()
+        return super().dispatch(request, *args, **kwargs)
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('medico-list')
+    extra_context = {
+        'titulo': 'Excluir Médico',
+        'botao': 'Sim, excluir!'
+    }
+
+
+class MedicoList(ListView):
+    model = None
+    def get_queryset(self):
+        from .models import Medico
+        self.model = Medico
+        return Medico.objects.all()
+    template_name = 'campeonato/list/medico.html'
+
+
+class MedicoDetail(DetailView):
+    model = None
+    def dispatch(self, request, *args, **kwargs):
+        from .models import Medico
+        self.model = Medico
+        return super().dispatch(request, *args, **kwargs)
+    template_name = 'campeonato/detail/medico.html'
+
+
+class ConsultaCreate(CreateView):
+    model = None
+    def get_model(self):
+        from .models import Consulta
+        return Consulta
+    def get(self, request, *args, **kwargs):
+        self.model = self.get_model()
+        return super().get(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        self.model = self.get_model()
+        return super().post(request, *args, **kwargs)
+    fields = ['paciente', 'medico', 'data']
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('consulta-list')
+    extra_context = {
+        'titulo': 'Agendar Consulta',
+        'botao': 'Agendar'
+    }
+
+
+class ConsultaList(ListView):
+    model = None
+    def get_queryset(self):
+        from .models import Consulta
+        self.model = Consulta
+        return Consulta.objects.all()
+    template_name = 'campeonato/list/consulta.html'
+
+
+class ConsultaDetail(DetailView):
+    model = None
+    def dispatch(self, request, *args, **kwargs):
+        from .models import Consulta
+        self.model = Consulta
+        return super().dispatch(request, *args, **kwargs)
+    template_name = 'campeonato/detail/consulta.html'
+
+
+class AtendimentoCreate(CreateView):
+    model = None
+    def get_model(self):
+        from .models import Atendimento
+        return Atendimento
+    def get(self, request, *args, **kwargs):
+        self.model = self.get_model()
+        return super().get(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        self.model = self.get_model()
+        return super().post(request, *args, **kwargs)
+    fields = ['consulta', 'descricao', 'realizado', 'realizado_em']
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('atendimento-list')
+    extra_context = {
+        'titulo': 'Registrar Atendimento',
+        'botao': 'Registrar'
+    }
+
+
+class AtendimentoList(ListView):
+    model = None
+    def get_queryset(self):
+        from .models import Atendimento
+        self.model = Atendimento
+        return Atendimento.objects.all()
+    template_name = 'campeonato/list/atendimento.html'
+
+
+class AtendimentoDetail(DetailView):
+    model = None
+    def dispatch(self, request, *args, **kwargs):
+        from .models import Atendimento
+        self.model = Atendimento
+        return super().dispatch(request, *args, **kwargs)
+    template_name = 'campeonato/detail/atendimento.html'

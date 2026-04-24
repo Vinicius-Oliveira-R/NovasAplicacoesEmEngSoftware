@@ -6,6 +6,9 @@ from .views import (
     EtapaCreate, EtapaUpdate, EtapaDelete, EtapaList, EtapaDetail,
     JogadorCreate, JogadorUpdate, JogadorDelete, JogadorList, JogadorDetail,
     PacienteCreate, PacienteUpdate, PacienteDelete, PacienteList, PacienteDetail,
+    MedicoCreate, MedicoUpdate, MedicoDelete, MedicoList, MedicoDetail,
+    ConsultaCreate, ConsultaList, ConsultaDetail,
+    AtendimentoCreate, AtendimentoList, AtendimentoDetail,
     CampeonatoCreate, CampeonatoUpdate, CampeonatoDelete, CampeonatoList, CampeonatoDetail,
     InscricaoCreate, InscricaoUpdate, InscricaoDelete, InscricaoList, InscricaoDetail,
     JogoCreate, JogoUpdate, JogoDelete, JogoList, JogoDetail,
@@ -54,6 +57,19 @@ urlpatterns = [
     path('excluir/campeonato/<int:pk>/', CampeonatoDelete.as_view(), name='campeonato-delete'),
     path('listar/campeonato/', CampeonatoList.as_view(), name='campeonato-list'),
     path('detalhar/campeonato/<int:pk>/', CampeonatoDetail.as_view(), name='campeonato-detail'),
+
+    # Rotas para médicos, consultas e atendimentos
+    path('cadastrar/medico/', MedicoCreate.as_view(), name='medico-create'),
+    path('listar/medico/', MedicoList.as_view(), name='medico-list'),
+    path('detalhar/medico/<int:pk>/', MedicoDetail.as_view(), name='medico-detail'),
+
+    path('cadastrar/consulta/', ConsultaCreate.as_view(), name='consulta-create'),
+    path('listar/consulta/', ConsultaList.as_view(), name='consulta-list'),
+    path('detalhar/consulta/<int:pk>/', ConsultaDetail.as_view(), name='consulta-detail'),
+
+    path('cadastrar/atendimento/', AtendimentoCreate.as_view(), name='atendimento-create'),
+    path('listar/atendimento/', AtendimentoList.as_view(), name='atendimento-list'),
+    path('detalhar/atendimento/<int:pk>/', AtendimentoDetail.as_view(), name='atendimento-detail'),
 
     path('cadastrar/inscricao/', InscricaoCreate.as_view(), name='inscricao-create'),
     path('atualizar/inscricao/<int:pk>/', InscricaoUpdate.as_view(), name='inscricao-update'),

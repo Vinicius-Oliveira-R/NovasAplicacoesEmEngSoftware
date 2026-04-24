@@ -1,0 +1,43 @@
+{% extends "website/modelo2.html" %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active">Médicos</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="section-title mb-0">Médicos</h2>
+  <a href="{% url 'medico-create' %}" class="btn btn-primary d-flex align-items-center gap-2">
+    <i class="bi bi-plus-lg"></i> Novo
+  </a>
+</div>
+
+<div class="card shadow-sm ">
+  <div class="card-body p-4 bg-white">
+    <table class="table table-arena mb-0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for medico in object_list %}
+        <tr>
+          <td>{{ medico.pk }}</td>
+          <td>{{ medico.nome }}</td>
+          <td class="text-center">
+            <a class="btn btn-sm btn-link" href="{% url 'medico-detail' medico.pk %}">Ver</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="text-center py-4 text-muted">Nenhum médico cadastrado.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}
