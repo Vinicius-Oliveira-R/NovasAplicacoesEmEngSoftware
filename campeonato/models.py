@@ -103,6 +103,35 @@ class Jogo(models.Model):
         return f"Jogo #{self.pk} às {self.data_hora}"
 
 
+# Novos models não-destrutivos para o domínio médico
+class Medico(models.Model):
+    nome = models.CharField(max_length=100)
+    usuario = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.nome}"
+
+
+class Consulta(models.Model):
+    paciente = models.ForeignKey(Jogador, on_delete=models.PROTECT, related_name='consultas')
+    medico = models.ForeignKey(Medico, on_delete=models.PROTECT, related_name='consultas')
+    data = models.DateTimeField()
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Consulta #{self.pk} - {self.paciente.nome} com {self.medico.nome} em {self.data}"
+
+
+class Atendimento(models.Model):
+    consulta = models.ForeignKey(Consulta, on_delete=models.PROTECT, related_name='atendimentos')
+    descricao = models.TextField(blank=True)
+    realizado = models.BooleanField(default=False)
+    realizado_em = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Atendimento #{self.pk} - Consulta #{self.consulta.pk}"
+
+
 # Proxy models to adapt domain terminology to medical system without
 # changing underlying database tables (non-destructive).
 class Paciente(Jogador):
