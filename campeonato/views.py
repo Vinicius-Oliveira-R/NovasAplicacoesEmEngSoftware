@@ -5,7 +5,7 @@ from django.views.generic.list import ListView
 # Buscar a rota da url pelo name dela (urls.py)
 from django.urls import reverse_lazy
 
-from .models import Campus, Jogador, Modalidade, Etapa, Campeonato, Inscricao, Jogo
+from .models import Campus, Jogador, Modalidade, Etapa, Campeonato, Inscricao, Jogo, Paciente, Especialidade
 
 
 class CampusCreate(CreateView):
@@ -310,3 +310,94 @@ class JogoList(ListView):
 class JogoDetail(DetailView):
     model = Jogo
     template_name = 'campeonato/detail/jogo.html'
+
+
+##########################################################
+# Views adicionais usando os proxy models para o domínio médico
+
+
+class PacienteCreate(CreateView):
+    model = Paciente
+    fields = ['nome', 'id_jogador', 'campus', 'usuario']
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('paciente-list')
+    extra_context = {
+        'titulo': 'Cadastro de Paciente',
+        'botao': 'Criar Paciente'
+    }
+
+
+class PacienteUpdate(UpdateView):
+    model = Paciente
+    fields = ['nome', 'id_jogador', 'campus', 'usuario']
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('paciente-list')
+    extra_context = {
+        'titulo': 'Editar dados do Paciente',
+        'botao': 'Atualizar Paciente'
+    }
+
+
+class PacienteDelete(DeleteView):
+    model = Paciente
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('paciente-list')
+    extra_context = {
+        'titulo': 'Excluir Paciente',
+        'botao': 'Sim, excluir!'
+    }
+
+
+class PacienteList(ListView):
+    model = Paciente
+    template_name = 'campeonato/list/jogador.html'
+
+
+class PacienteDetail(DetailView):
+    model = Paciente
+    template_name = 'campeonato/detail/jogador.html'
+
+
+##########################################################
+
+
+class EspecialidadeCreate(CreateView):
+    model = Especialidade
+    fields = ['nome']
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('especialidade-list')
+    extra_context = {
+        'titulo': 'Cadastro de Especialidade',
+        'botao': 'Criar Especialidade'
+    }
+
+
+class EspecialidadeUpdate(UpdateView):
+    model = Especialidade
+    fields = ['nome']
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('especialidade-list')
+    extra_context = {
+        'titulo': 'Editar dados da Especialidade',
+        'botao': 'Atualizar Especialidade'
+    }
+
+
+class EspecialidadeDelete(DeleteView):
+    model = Especialidade
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('especialidade-list')
+    extra_context = {
+        'titulo': 'Excluir Especialidade',
+        'botao': 'Sim, excluir!'
+    }
+
+
+class EspecialidadeList(ListView):
+    model = Especialidade
+    template_name = 'campeonato/list/modalidade.html'
+
+
+class EspecialidadeDetail(DetailView):
+    model = Especialidade
+    template_name = 'campeonato/detail/modalidade.html'

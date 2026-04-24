@@ -101,3 +101,19 @@ class Jogo(models.Model):
 
     def __str__(self):
         return f"Jogo #{self.pk} às {self.data_hora}"
+
+
+# Proxy models to adapt domain terminology to medical system without
+# changing underlying database tables (non-destructive).
+class Paciente(Jogador):
+    class Meta:
+        proxy = True
+        verbose_name = "Paciente"
+        verbose_name_plural = "Pacientes"
+
+
+class Especialidade(Modalidade):
+    class Meta:
+        proxy = True
+        verbose_name = "Especialidade"
+        verbose_name_plural = "Especialidades"

@@ -5,6 +5,7 @@ from .views import (
     ModalidadeCreate, ModalidadeUpdate, ModalidadeDelete, ModalidadeList, ModalidadeDetail,
     EtapaCreate, EtapaUpdate, EtapaDelete, EtapaList, EtapaDetail,
     JogadorCreate, JogadorUpdate, JogadorDelete, JogadorList, JogadorDetail,
+    PacienteCreate, PacienteUpdate, PacienteDelete, PacienteList, PacienteDetail,
     CampeonatoCreate, CampeonatoUpdate, CampeonatoDelete, CampeonatoList, CampeonatoDetail,
     InscricaoCreate, InscricaoUpdate, InscricaoDelete, InscricaoList, InscricaoDetail,
     JogoCreate, JogoUpdate, JogoDelete, JogoList, JogoDetail,
@@ -23,6 +24,12 @@ urlpatterns = [
     path('excluir/modalidade/<int:pk>/', ModalidadeDelete.as_view(), name='modalidade-delete'),
     path('listar/modalidade/', ModalidadeList.as_view(), name='modalidade-list'),
     path('detalhar/modalidade/<int:pk>/', ModalidadeDetail.as_view(), name='modalidade-detail'),
+    # Rotas alternativas no domínio médico (especialidades)
+    path('cadastrar/especialidade/', ModalidadeCreate.as_view(), name='especialidade-create'),
+    path('atualizar/especialidade/<int:pk>/', ModalidadeUpdate.as_view(), name='especialidade-update'),
+    path('excluir/especialidade/<int:pk>/', ModalidadeDelete.as_view(), name='especialidade-delete'),
+    path('listar/especialidade/', ModalidadeList.as_view(), name='especialidade-list'),
+    path('detalhar/especialidade/<int:pk>/', ModalidadeDetail.as_view(), name='especialidade-detail'),
 
     path('cadastrar/etapa/', EtapaCreate.as_view(), name='etapa-create'),
     path('atualizar/etapa/<int:pk>/', EtapaUpdate.as_view(), name='etapa-update'),
@@ -35,6 +42,12 @@ urlpatterns = [
     path('excluir/jogador/<int:pk>/', JogadorDelete.as_view(), name='jogador-delete'),
     path('listar/jogador/', JogadorList.as_view(), name='jogador-list'),
     path('detalhar/jogador/<int:pk>/', JogadorDetail.as_view(), name='jogador-detail'),
+    # Rotas alternativas no domínio médico (pacientes)
+    path('cadastrar/paciente/', PacienteCreate.as_view(), name='paciente-create'),
+    path('atualizar/paciente/<int:pk>/', PacienteUpdate.as_view(), name='paciente-update'),
+    path('excluir/paciente/<int:pk>/', PacienteDelete.as_view(), name='paciente-delete'),
+    path('listar/paciente/', PacienteList.as_view(), name='paciente-list'),
+    path('detalhar/paciente/<int:pk>/', PacienteDetail.as_view(), name='paciente-detail'),
     
     path('cadastrar/campeonato/', CampeonatoCreate.as_view(), name='campeonato-create'),
     path('atualizar/campeonato/<int:pk>/', CampeonatoUpdate.as_view(), name='campeonato-update'),
