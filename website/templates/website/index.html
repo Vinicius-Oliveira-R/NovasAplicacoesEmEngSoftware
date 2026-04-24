@@ -1,0 +1,75 @@
+{% extends "website/modelo2.html" %}
+{% load static %}
+
+{% block title %}Arena - Início{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active">Início</li>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-5">
+  
+  <div class="col-lg-8">
+    <div class="p-5 rounded-4 shadow-sm h-100 d-flex flex-column justify-content-center" style="background: linear-gradient(135deg, var(--clr-primary) 0%, #7b2ff7 100%); border: 1px solid var(--clr-border);">
+      <h1 class="display-4 stencil mb-3 text-white">BEM-VINDO À ARENA</h1>
+      <p class="lead mb-4 text-white text-opacity-75">A plataforma definitiva para gestão de campeonatos de E-Sports. Organize torneios, inscreva equipes e acompanhe resultados em tempo real.</p>
+      <div class="d-flex gap-3">
+        <a href="{% url 'campeonato-list' %}" class="btn btn-light px-4 py-2 fw-bold text-primary">
+          <i class="bi bi-trophy me-2"></i>Ver Campeonatos
+        </a>
+        <a href="{% url 'sobre' %}" class="btn btn-outline-light px-4 py-2">
+          Saber Mais
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-4">
+    <div class="card h-100 border-0 shadow-sm bg-surface-alt">
+      <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
+        <div class="display-1 mb-3">🎮</div>
+        <h3 class="h4 fw-bold mb-2 stencil">Pronto para o Próximo Level?</h3>
+        <p class="text-muted mb-0">Cadastre-se como jogador e comece sua jornada competitiva hoje mesmo.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="feature-icon bg-primary bg-opacity-10 mb-3" style="font-size: 2rem; color: var(--clr-primary);">
+          <i class="bi bi-joystick"></i>
+        </div>
+        <h5 class="stencil mb-2">Múltiplas Modalidades</h5>
+        <p class="text-muted mb-0">Suporte para diversos jogos, desde FPS até MOBAs e Battle Royales.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="feature-icon bg-primary bg-opacity-10 mb-3" style="font-size: 2rem; color: var(--clr-primary);">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <h5 class="stencil mb-2">Gestão de Equipes</h5>
+        <p class="text-muted mb-0">Controle total sobre inscrições, jogadores e escalações por campus.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="feature-icon bg-primary bg-opacity-10 mb-3" style="font-size: 2rem; color: var(--clr-primary);">
+          <i class="bi bi-calendar-event"></i>
+        </div>
+        <h5 class="stencil mb-2">Etapas e Jogos</h5>
+        <p class="text-muted mb-0">Cronogramas claros e acompanhamento de cada partida do torneio.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
