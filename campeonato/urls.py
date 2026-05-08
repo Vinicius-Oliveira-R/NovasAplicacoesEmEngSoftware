@@ -1,85 +1,75 @@
-
 from django.urls import path
-from .views import (
-    CampusCreate, CampusUpdate, CampusDelete, CampusList, CampusDetail,
-    ModalidadeCreate, ModalidadeUpdate, ModalidadeDelete, ModalidadeList, ModalidadeDetail,
-    EtapaCreate, EtapaUpdate, EtapaDelete, EtapaList, EtapaDetail,
-    JogadorCreate, JogadorUpdate, JogadorDelete, JogadorList, JogadorDetail,
-    PacienteCreate, PacienteUpdate, PacienteDelete, PacienteList, PacienteDetail,
-    MedicoCreate, MedicoUpdate, MedicoDelete, MedicoList, MedicoDetail,
-    ConsultaCreate, ConsultaList, ConsultaDetail,
-    AtendimentoCreate, AtendimentoList, AtendimentoDetail,
-    CampeonatoCreate, CampeonatoUpdate, CampeonatoDelete, CampeonatoList, CampeonatoDetail,
-    InscricaoCreate, InscricaoUpdate, InscricaoDelete, InscricaoList, InscricaoDetail,
-    JogoCreate, JogoUpdate, JogoDelete, JogoList, JogoDetail,
-)
-
+from . import views
 
 urlpatterns = [
-    path('cadastrar/campus/', CampusCreate.as_view(), name='campus-create'),
-    path('atualizar/campus/<int:pk>/', CampusUpdate.as_view(), name='campus-update'),
-    path('excluir/campus/<int:pk>/', CampusDelete.as_view(), name='campus-delete'),
-    path('listar/campus/', CampusList.as_view(), name='campus-list'),
-    path('detalhar/campus/<int:pk>/', CampusDetail.as_view(), name='campus-detail'),
+    # Campus URLs
+    path('campus/', views.CampusListView.as_view(), name='campus-list'),
+    path('campus/criar/', views.CampusCreateView.as_view(), name='campus-create'),
+    path('campus/<int:pk>/', views.CampusDetailView.as_view(), name='campus-detail'),
+    path('campus/<int:pk>/editar/', views.CampusUpdateView.as_view(), name='campus-update'),
+    path('campus/<int:pk>/deletar/', views.CampusDeleteView.as_view(), name='campus-delete'),
 
-    path('cadastrar/modalidade/', ModalidadeCreate.as_view(), name='modalidade-create'),
-    path('atualizar/modalidade/<int:pk>/', ModalidadeUpdate.as_view(), name='modalidade-update'),
-    path('excluir/modalidade/<int:pk>/', ModalidadeDelete.as_view(), name='modalidade-delete'),
-    path('listar/modalidade/', ModalidadeList.as_view(), name='modalidade-list'),
-    path('detalhar/modalidade/<int:pk>/', ModalidadeDetail.as_view(), name='modalidade-detail'),
-    # Rotas alternativas no domínio médico (especialidades)
-    path('cadastrar/especialidade/', ModalidadeCreate.as_view(), name='especialidade-create'),
-    path('atualizar/especialidade/<int:pk>/', ModalidadeUpdate.as_view(), name='especialidade-update'),
-    path('excluir/especialidade/<int:pk>/', ModalidadeDelete.as_view(), name='especialidade-delete'),
-    path('listar/especialidade/', ModalidadeList.as_view(), name='especialidade-list'),
-    path('detalhar/especialidade/<int:pk>/', ModalidadeDetail.as_view(), name='especialidade-detail'),
+    # Modalidade URLs
+    path('modalidade/', views.ModalidadeListView.as_view(), name='modalidade-list'),
+    path('modalidade/criar/', views.ModalidadeCreateView.as_view(), name='modalidade-create'),
+    path('modalidade/<int:pk>/', views.ModalidadeDetailView.as_view(), name='modalidade-detail'),
+    path('modalidade/<int:pk>/editar/', views.ModalidadeUpdateView.as_view(), name='modalidade-update'),
+    path('modalidade/<int:pk>/deletar/', views.ModalidadeDeleteView.as_view(), name='modalidade-delete'),
 
-    path('cadastrar/etapa/', EtapaCreate.as_view(), name='etapa-create'),
-    path('atualizar/etapa/<int:pk>/', EtapaUpdate.as_view(), name='etapa-update'),
-    path('excluir/etapa/<int:pk>/', EtapaDelete.as_view(), name='etapa-delete'),
-    path('listar/etapa/', EtapaList.as_view(), name='etapa-list'),
-    path('detalhar/etapa/<int:pk>/', EtapaDetail.as_view(), name='etapa-detail'),
+    # Etapa URLs
+    path('etapa/', views.EtapaListView.as_view(), name='etapa-list'),
+    path('etapa/criar/', views.EtapaCreateView.as_view(), name='etapa-create'),
+    path('etapa/<int:pk>/', views.EtapaDetailView.as_view(), name='etapa-detail'),
+    path('etapa/<int:pk>/editar/', views.EtapaUpdateView.as_view(), name='etapa-update'),
+    path('etapa/<int:pk>/deletar/', views.EtapaDeleteView.as_view(), name='etapa-delete'),
 
-    path('cadastrar/jogador/', JogadorCreate.as_view(), name='jogador-create'),
-    path('atualizar/jogador/<int:pk>/', JogadorUpdate.as_view(), name='jogador-update'),
-    path('excluir/jogador/<int:pk>/', JogadorDelete.as_view(), name='jogador-delete'),
-    path('listar/jogador/', JogadorList.as_view(), name='jogador-list'),
-    path('detalhar/jogador/<int:pk>/', JogadorDetail.as_view(), name='jogador-detail'),
-    # Rotas alternativas no domínio médico (pacientes)
-    path('cadastrar/paciente/', PacienteCreate.as_view(), name='paciente-create'),
-    path('atualizar/paciente/<int:pk>/', PacienteUpdate.as_view(), name='paciente-update'),
-    path('excluir/paciente/<int:pk>/', PacienteDelete.as_view(), name='paciente-delete'),
-    path('listar/paciente/', PacienteList.as_view(), name='paciente-list'),
-    path('detalhar/paciente/<int:pk>/', PacienteDetail.as_view(), name='paciente-detail'),
-    
-    path('cadastrar/campeonato/', CampeonatoCreate.as_view(), name='campeonato-create'),
-    path('atualizar/campeonato/<int:pk>/', CampeonatoUpdate.as_view(), name='campeonato-update'),
-    path('excluir/campeonato/<int:pk>/', CampeonatoDelete.as_view(), name='campeonato-delete'),
-    path('listar/campeonato/', CampeonatoList.as_view(), name='campeonato-list'),
-    path('detalhar/campeonato/<int:pk>/', CampeonatoDetail.as_view(), name='campeonato-detail'),
+    # Jogador URLs
+    path('jogador/', views.JogadorListView.as_view(), name='jogador-list'),
+    path('jogador/criar/', views.JogadorCreateView.as_view(), name='jogador-create'),
+    path('jogador/<int:pk>/', views.JogadorDetailView.as_view(), name='jogador-detail'),
+    path('jogador/<int:pk>/editar/', views.JogadorUpdateView.as_view(), name='jogador-update'),
+    path('jogador/<int:pk>/deletar/', views.JogadorDeleteView.as_view(), name='jogador-delete'),
 
-    # Rotas para médicos, consultas e atendimentos
-    path('cadastrar/medico/', MedicoCreate.as_view(), name='medico-create'),
-    path('listar/medico/', MedicoList.as_view(), name='medico-list'),
-    path('detalhar/medico/<int:pk>/', MedicoDetail.as_view(), name='medico-detail'),
+    # Campeonato URLs
+    path('', views.CampeonatoListView.as_view(), name='campeonato-list'),
+    path('criar/', views.CampeonatoCreateView.as_view(), name='campeonato-create'),
+    path('<int:pk>/', views.CampeonatoDetailView.as_view(), name='campeonato-detail'),
+    path('<int:pk>/editar/', views.CampeonatoUpdateView.as_view(), name='campeonato-update'),
+    path('<int:pk>/deletar/', views.CampeonatoDeleteView.as_view(), name='campeonato-delete'),
 
-    path('cadastrar/consulta/', ConsultaCreate.as_view(), name='consulta-create'),
-    path('listar/consulta/', ConsultaList.as_view(), name='consulta-list'),
-    path('detalhar/consulta/<int:pk>/', ConsultaDetail.as_view(), name='consulta-detail'),
+    # Inscricao URLs
+    path('inscricao/', views.InscricaoListView.as_view(), name='inscricao-list'),
+    path('inscricao/criar/', views.InscricaoCreateView.as_view(), name='inscricao-create'),
+    path('inscricao/<int:pk>/', views.InscricaoDetailView.as_view(), name='inscricao-detail'),
+    path('inscricao/<int:pk>/editar/', views.InscricaoUpdateView.as_view(), name='inscricao-update'),
+    path('inscricao/<int:pk>/deletar/', views.InscricaoDeleteView.as_view(), name='inscricao-delete'),
 
-    path('cadastrar/atendimento/', AtendimentoCreate.as_view(), name='atendimento-create'),
-    path('listar/atendimento/', AtendimentoList.as_view(), name='atendimento-list'),
-    path('detalhar/atendimento/<int:pk>/', AtendimentoDetail.as_view(), name='atendimento-detail'),
+    # Jogo URLs
+    path('jogo/', views.JogoListView.as_view(), name='jogo-list'),
+    path('jogo/criar/', views.JogoCreateView.as_view(), name='jogo-create'),
+    path('jogo/<int:pk>/', views.JogoDetailView.as_view(), name='jogo-detail'),
+    path('jogo/<int:pk>/editar/', views.JogoUpdateView.as_view(), name='jogo-update'),
+    path('jogo/<int:pk>/deletar/', views.JogoDeleteView.as_view(), name='jogo-delete'),
 
-    path('cadastrar/inscricao/', InscricaoCreate.as_view(), name='inscricao-create'),
-    path('atualizar/inscricao/<int:pk>/', InscricaoUpdate.as_view(), name='inscricao-update'),
-    path('excluir/inscricao/<int:pk>/', InscricaoDelete.as_view(), name='inscricao-delete'),
-    path('listar/inscricao/', InscricaoList.as_view(), name='inscricao-list'),
-    path('detalhar/inscricao/<int:pk>/', InscricaoDetail.as_view(), name='inscricao-detail'),
+    # Medico URLs
+    path('medico/', views.MedicoListView.as_view(), name='medico-list'),
+    path('medico/criar/', views.MedicoCreateView.as_view(), name='medico-create'),
+    path('medico/<int:pk>/', views.MedicoDetailView.as_view(), name='medico-detail'),
+    path('medico/<int:pk>/editar/', views.MedicoUpdateView.as_view(), name='medico-update'),
+    path('medico/<int:pk>/deletar/', views.MedicoDeleteView.as_view(), name='medico-delete'),
 
-    path('cadastrar/jogo/', JogoCreate.as_view(), name='jogo-create'),
-    path('atualizar/jogo/<int:pk>/', JogoUpdate.as_view(), name='jogo-update'),
-    path('excluir/jogo/<int:pk>/', JogoDelete.as_view(), name='jogo-delete'),
-    path('listar/jogo/', JogoList.as_view(), name='jogo-list'),
-    path('detalhar/jogo/<int:pk>/', JogoDetail.as_view(), name='jogo-detail'),
+    # Consulta URLs
+    path('consulta/', views.ConsultaListView.as_view(), name='consulta-list'),
+    path('consulta/criar/', views.ConsultaCreateView.as_view(), name='consulta-create'),
+    path('consulta/<int:pk>/', views.ConsultaDetailView.as_view(), name='consulta-detail'),
+    path('consulta/<int:pk>/editar/', views.ConsultaUpdateView.as_view(), name='consulta-update'),
+    path('consulta/<int:pk>/deletar/', views.ConsultaDeleteView.as_view(), name='consulta-delete'),
+
+    # Atendimento URLs
+    path('atendimento/', views.AtendimentoListView.as_view(), name='atendimento-list'),
+    path('atendimento/criar/', views.AtendimentoCreateView.as_view(), name='atendimento-create'),
+    path('atendimento/<int:pk>/', views.AtendimentoDetailView.as_view(), name='atendimento-detail'),
+    path('atendimento/<int:pk>/editar/', views.AtendimentoUpdateView.as_view(), name='atendimento-update'),
+    path('atendimento/<int:pk>/deletar/', views.AtendimentoDeleteView.as_view(), name='atendimento-delete'),
 ]
+

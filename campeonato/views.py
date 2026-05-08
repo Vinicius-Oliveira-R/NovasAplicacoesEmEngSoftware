@@ -1,546 +1,610 @@
-from django.views.generic import CreateView, UpdateView, DeleteView
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
-
-# Buscar a rota da url pelo name dela (urls.py)
+from django.shortcuts import render
+from django.views.generic import (
+    ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView
+)
 from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
+from .models import (
+    Campus, Modalidade, Etapa, Jogador, Campeonato,
+    Inscricao, Jogo, Medico, Consulta, Atendimento
+)
+from .forms import (
+    CampusForm, ModalidadeForm, EtapaForm, JogadorForm, CampeonatoForm,
+    InscricaoForm, JogoForm, MedicoForm, ConsultaForm, AtendimentoForm
+)
 
-from .models import Campus, Jogador, Modalidade, Etapa, Campeonato, Inscricao, Jogo, Paciente, Especialidade
 
-
-class CampusCreate(CreateView):
+# ==================== CAMPUS VIEWS ====================
+class CampusListView(ListView):
     model = Campus
-    fields = ['nome']
+    template_name = 'campeonato/campus_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Campus'
+        return context
+
+
+class CampusCreateView(SuccessMessageMixin, CreateView):
+    model = Campus
+    form_class = CampusForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('campus-list')
-    extra_context = {
-        'titulo': 'Cadastro de Campus',
-        'botao': 'Criar Campus'
-    }
+    success_message = "Campus criado com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Campus'
+        context['form_title'] = 'Novo Campus'
+        return context
 
 
-class CampusUpdate(UpdateView):
+class CampusDetailView(DetailView):
     model = Campus
-    fields = ['nome']
+    template_name = 'campeonato/detail.html'
+    context_object_name = 'object'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = f'Campus - {self.object.nome}'
+        return context
+
+
+class CampusUpdateView(SuccessMessageMixin, UpdateView):
+    model = Campus
+    form_class = CampusForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('campus-list')
-    extra_context = {
-        'titulo': 'Editar dados do Campus',
-        'botao': 'Atualizar Campus'
-    }
+    success_message = "Campus atualizado com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Editar Campus'
+        context['form_title'] = f'Editar {self.object.nome}'
+        return context
 
 
-class CampusDelete(DeleteView):
+class CampusDeleteView(SuccessMessageMixin, DeleteView):
     model = Campus
-    template_name = 'campeonato/form.html'
+    template_name = 'campeonato/confirm_delete.html'
     success_url = reverse_lazy('campus-list')
-    extra_context = {
-        'titulo': 'Excluir Campus',
-        'botao': 'Sim, excluir!'
-    }
+    success_message = "Campus removido com sucesso!"
 
 
-class CampusList(ListView):
-    model = Campus
-    template_name = 'campeonato/list/campus.html'
-    paginate_by = 20
-
-
-class CampusDetail(DetailView):
-    model = Campus
-    template_name = 'campeonato/detail/campus.html'
-
-
-
-#########################################################
-
-
-class ModalidadeCreate(CreateView):
+# ==================== MODALIDADE VIEWS ====================
+class ModalidadeListView(ListView):
     model = Modalidade
-    fields = ['nome']
+    template_name = 'campeonato/modalidade_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Modalidades'
+        return context
+
+
+class ModalidadeCreateView(SuccessMessageMixin, CreateView):
+    model = Modalidade
+    form_class = ModalidadeForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('modalidade-list')
-    extra_context = {
-        'titulo': 'Cadastro de Modalidade',
-        'botao': 'Criar Modalidade'
-    }
+    success_message = "Modalidade criada com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Modalidade'
+        context['form_title'] = 'Nova Modalidade'
+        return context
 
 
-class ModalidadeUpdate(UpdateView):
+class ModalidadeDetailView(DetailView):
     model = Modalidade
-    fields = ['nome']
+    template_name = 'campeonato/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = f'Modalidade - {self.object.nome}'
+        return context
+
+
+class ModalidadeUpdateView(SuccessMessageMixin, UpdateView):
+    model = Modalidade
+    form_class = ModalidadeForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('modalidade-list')
-    extra_context = {
-        'titulo': 'Editar dados da Modalidade',
-        'botao': 'Atualizar Modalidade'
-    }
+    success_message = "Modalidade atualizada com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Editar Modalidade'
+        context['form_title'] = f'Editar {self.object.nome}'
+        return context
 
 
-class ModalidadeDelete(DeleteView):
+class ModalidadeDeleteView(SuccessMessageMixin, DeleteView):
     model = Modalidade
-    template_name = 'campeonato/form.html'
+    template_name = 'campeonato/confirm_delete.html'
     success_url = reverse_lazy('modalidade-list')
-    extra_context = {
-        'titulo': 'Excluir Modalidade',
-        'botao': 'Sim, excluir!'
-    }
+    success_message = "Modalidade removida com sucesso!"
 
 
-class ModalidadeList(ListView):
-    model = Modalidade
-    template_name = 'campeonato/list/modalidade.html'
-
-
-class ModalidadeDetail(DetailView):
-    model = Modalidade
-    template_name = 'campeonato/detail/modalidade.html'
-
-#########################################################
-
-
-class EtapaCreate(CreateView):
+# ==================== ETAPA VIEWS ====================
+class EtapaListView(ListView):
     model = Etapa
-    fields = ['nome', 'sequencia', 'quantidade_jogos']
+    template_name = 'campeonato/etapa_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Etapas'
+        return context
+
+
+class EtapaCreateView(SuccessMessageMixin, CreateView):
+    model = Etapa
+    form_class = EtapaForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('etapa-list')
-    extra_context = {
-        'titulo': 'Cadastro de Etapa',
-        'botao': 'Criar Etapa',
-        'largura': 8
-    }
+    success_message = "Etapa criada com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Etapa'
+        context['form_title'] = 'Nova Etapa'
+        return context
 
 
-class EtapaUpdate(UpdateView):
+class EtapaDetailView(DetailView):
     model = Etapa
-    fields = ['nome', 'sequencia', 'quantidade_jogos']
+    template_name = 'campeonato/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = f'Etapa - {self.object.nome}'
+        return context
+
+
+class EtapaUpdateView(SuccessMessageMixin, UpdateView):
+    model = Etapa
+    form_class = EtapaForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('etapa-list')
-    extra_context = {
-        'titulo': 'Editar dados da Etapa',
-        'botao': 'Atualizar Etapa'
-    }
+    success_message = "Etapa atualizada com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Editar Etapa'
+        context['form_title'] = f'Editar {self.object.nome}'
+        return context
 
 
-class EtapaDelete(DeleteView):
+class EtapaDeleteView(SuccessMessageMixin, DeleteView):
     model = Etapa
-    template_name = 'campeonato/form.html'
+    template_name = 'campeonato/confirm_delete.html'
     success_url = reverse_lazy('etapa-list')
-    extra_context = {
-        'titulo': 'Excluir Etapa',
-        'botao': 'Sim, excluir!'
-    }
+    success_message = "Etapa removida com sucesso!"
 
 
-class EtapaList(ListView):
-    model = Etapa
-    template_name = 'campeonato/list/etapa.html'
-
-
-class EtapaDetail(DetailView):
-    model = Etapa
-    template_name = 'campeonato/detail/etapa.html'
-
-
-class JogadorCreate(CreateView):
+# ==================== JOGADOR VIEWS ====================
+class JogadorListView(ListView):
     model = Jogador
-    fields = ['nome', 'id_jogador', 'campus', 'usuario']
+    template_name = 'campeonato/jogador_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Jogadores'
+        return context
+
+
+class JogadorCreateView(SuccessMessageMixin, CreateView):
+    model = Jogador
+    form_class = JogadorForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('jogador-list')
-    extra_context = {
-        'titulo': 'Cadastro de Jogador',
-        'botao': 'Criar Jogador'
-    }
+    success_message = "Jogador criado com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Jogador'
+        context['form_title'] = 'Novo Jogador'
+        return context
 
 
-class JogadorUpdate(UpdateView):
+class JogadorDetailView(DetailView):
     model = Jogador
-    fields = ['nome', 'id_jogador', 'campus', 'usuario']
+    template_name = 'campeonato/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = f'Jogador - {self.object.nome}'
+        return context
+
+
+class JogadorUpdateView(SuccessMessageMixin, UpdateView):
+    model = Jogador
+    form_class = JogadorForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('jogador-list')
-    extra_context = {
-        'titulo': 'Editar dados do Jogador',
-        'botao': 'Atualizar Jogador'
-    }
+    success_message = "Jogador atualizado com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Editar Jogador'
+        context['form_title'] = f'Editar {self.object.nome}'
+        return context
 
 
-class JogadorDelete(DeleteView):
+class JogadorDeleteView(SuccessMessageMixin, DeleteView):
     model = Jogador
-    template_name = 'campeonato/form.html'
+    template_name = 'campeonato/confirm_delete.html'
     success_url = reverse_lazy('jogador-list')
-    extra_context = {
-        'titulo': 'Excluir Jogador',
-        'botao': 'Sim, excluir!'
-    }
+    success_message = "Jogador removido com sucesso!"
 
 
-class JogadorList(ListView):
-    model = Jogador
-    template_name = 'campeonato/list/jogador.html'
-
-
-class JogadorDetail(DetailView):
-    model = Jogador
-    template_name = 'campeonato/detail/jogador.html'
-
-##########################################################
-
-
-class CampeonatoCreate(CreateView):
+# ==================== CAMPEONATO VIEWS ====================
+class CampeonatoListView(ListView):
     model = Campeonato
-    fields = ['nome', 'campus', 'data', 'data_inscricao', 'modalidades', 'cadastrado_por']
+    template_name = 'campeonato/campeonato_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Campeonatos'
+        return context
+
+
+class CampeonatoCreateView(SuccessMessageMixin, CreateView):
+    model = Campeonato
+    form_class = CampeonatoForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('campeonato-list')
-    extra_context = {
-        'titulo': 'Cadastro de Campeonato',
-        'botao': 'Criar Campeonato'
-    }
+    success_message = "Campeonato criado com sucesso!"
+
+    def form_valid(self, form):
+        form.instance.cadastrado_por = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Campeonato'
+        context['form_title'] = 'Novo Campeonato'
+        return context
 
 
-class CampeonatoUpdate(UpdateView):
+class CampeonatoDetailView(DetailView):
     model = Campeonato
-    fields = ['nome', 'campus', 'data', 'data_inscricao', 'modalidades', 'cadastrado_por']
+    template_name = 'campeonato/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = f'Campeonato - {self.object.nome}'
+        context['inscricoes'] = Inscricao.objects.filter(campeonato=self.object)
+        return context
+
+
+class CampeonatoUpdateView(SuccessMessageMixin, UpdateView):
+    model = Campeonato
+    form_class = CampeonatoForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('campeonato-list')
-    extra_context = {
-        'titulo': 'Editar dados do Campeonato',
-        'botao': 'Atualizar Campeonato'
-    }
+    success_message = "Campeonato atualizado com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Editar Campeonato'
+        context['form_title'] = f'Editar {self.object.nome}'
+        return context
 
 
-class CampeonatoDelete(DeleteView):
+class CampeonatoDeleteView(SuccessMessageMixin, DeleteView):
     model = Campeonato
-    template_name = 'campeonato/form.html'
+    template_name = 'campeonato/confirm_delete.html'
     success_url = reverse_lazy('campeonato-list')
-    extra_context = {
-        'titulo': 'Excluir Campeonato',
-        'botao': 'Sim, excluir!'
-    }
+    success_message = "Campeonato removido com sucesso!"
 
 
-class CampeonatoList(ListView):
-    model = Campeonato
-    template_name = 'campeonato/list/campeonato.html'
-
-
-class CampeonatoDetail(DetailView):
-    model = Campeonato
-    template_name = 'campeonato/detail/campeonato.html'
-
-
-class InscricaoCreate(CreateView):
+# ==================== INSCRICAO VIEWS ====================
+class InscricaoListView(ListView):
     model = Inscricao
-    fields = ['nome_time', 'jogadores', 'campeonato', 'modalidade', 'inscrito_por']
+    template_name = 'campeonato/inscricao_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Inscrições'
+        return context
+
+
+class InscricaoCreateView(SuccessMessageMixin, CreateView):
+    model = Inscricao
+    form_class = InscricaoForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('inscricao-list')
-    extra_context = {
-        'titulo': 'Cadastro de Inscrição',
-        'botao': 'Criar Inscrição'
-    }
+    success_message = "Inscrição criada com sucesso!"
+
+    def form_valid(self, form):
+        form.instance.inscrito_por = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Inscrição'
+        context['form_title'] = 'Nova Inscrição'
+        return context
 
 
-class InscricaoUpdate(UpdateView):
+class InscricaoDetailView(DetailView):
     model = Inscricao
-    fields = ['nome_time', 'jogadores', 'campeonato', 'modalidade', 'confirmada', 'confirmada_em', 'inscrito_por']
+    template_name = 'campeonato/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = f'Inscrição - {self.object.nome_time}'
+        return context
+
+
+class InscricaoUpdateView(SuccessMessageMixin, UpdateView):
+    model = Inscricao
+    form_class = InscricaoForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('inscricao-list')
-    extra_context = {
-        'titulo': 'Editar dados da Inscrição',
-        'botao': 'Atualizar Inscrição'
-    }
+    success_message = "Inscrição atualizada com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Editar Inscrição'
+        context['form_title'] = f'Editar {self.object.nome_time}'
+        return context
 
 
-class InscricaoDelete(DeleteView):
+class InscricaoDeleteView(SuccessMessageMixin, DeleteView):
     model = Inscricao
-    template_name = 'campeonato/form.html'
+    template_name = 'campeonato/confirm_delete.html'
     success_url = reverse_lazy('inscricao-list')
-    extra_context = {
-        'titulo': 'Excluir Inscrição',
-        'botao': 'Sim, excluir!'
-    }
+    success_message = "Inscrição removida com sucesso!"
 
 
-class InscricaoList(ListView):
-    model = Inscricao
-    template_name = 'campeonato/list/inscricao.html'
-
-
-class InscricaoDetail(DetailView):
-    model = Inscricao
-    template_name = 'campeonato/detail/inscricao.html'
-
-
-class JogoCreate(CreateView):
+# ==================== JOGO VIEWS ====================
+class JogoListView(ListView):
     model = Jogo
-    fields = ['time_1', 'time_2', 'data_hora', 'etapa', 'modalidade', 'vencedor', 'resultado', 'cadastrado_por']
+    template_name = 'campeonato/jogo_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Jogos'
+        return context
+
+
+class JogoCreateView(SuccessMessageMixin, CreateView):
+    model = Jogo
+    form_class = JogoForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('jogo-list')
-    extra_context = {
-        'titulo': 'Cadastro de Jogo',
-        'botao': 'Criar Jogo'
-    }
+    success_message = "Jogo criado com sucesso!"
+
+    def form_valid(self, form):
+        form.instance.cadastrado_por = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Jogo'
+        context['form_title'] = 'Novo Jogo'
+        return context
 
 
-class JogoUpdate(UpdateView):
+class JogoDetailView(DetailView):
     model = Jogo
-    fields = ['time_1', 'time_2', 'data_hora', 'etapa', 'modalidade', 'vencedor', 'resultado', 'cadastrado_por']
+    template_name = 'campeonato/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = f'Jogo #{self.object.pk}'
+        return context
+
+
+class JogoUpdateView(SuccessMessageMixin, UpdateView):
+    model = Jogo
+    form_class = JogoForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('jogo-list')
-    extra_context = {
-        'titulo': 'Editar dados do Jogo',
-        'botao': 'Atualizar Jogo'
-    }
+    success_message = "Jogo atualizado com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Editar Jogo'
+        context['form_title'] = f'Editar Jogo #{self.object.pk}'
+        return context
 
 
-class JogoDelete(DeleteView):
+class JogoDeleteView(SuccessMessageMixin, DeleteView):
     model = Jogo
-    template_name = 'campeonato/form.html'
+    template_name = 'campeonato/confirm_delete.html'
     success_url = reverse_lazy('jogo-list')
-    extra_context = {
-        'titulo': 'Excluir Jogo',
-        'botao': 'Sim, excluir!'
-    }
+    success_message = "Jogo removido com sucesso!"
 
 
-class JogoList(ListView):
-    model = Jogo
-    template_name = 'campeonato/list/jogo.html'
+# ==================== MEDICO VIEWS ====================
+class MedicoListView(ListView):
+    model = Medico
+    template_name = 'campeonato/medico_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Médicos'
+        return context
 
 
-class JogoDetail(DetailView):
-    model = Jogo
-    template_name = 'campeonato/detail/jogo.html'
-
-
-##########################################################
-# Views adicionais usando os proxy models para o domínio médico
-
-
-class PacienteCreate(CreateView):
-    model = Paciente
-    fields = ['nome', 'id_jogador', 'campus', 'usuario']
-    template_name = 'campeonato/form.html'
-    success_url = reverse_lazy('paciente-list')
-    extra_context = {
-        'titulo': 'Cadastro de Paciente',
-        'botao': 'Criar Paciente'
-    }
-
-
-class PacienteUpdate(UpdateView):
-    model = Paciente
-    fields = ['nome', 'id_jogador', 'campus', 'usuario']
-    template_name = 'campeonato/form.html'
-    success_url = reverse_lazy('paciente-list')
-    extra_context = {
-        'titulo': 'Editar dados do Paciente',
-        'botao': 'Atualizar Paciente'
-    }
-
-
-class PacienteDelete(DeleteView):
-    model = Paciente
-    template_name = 'campeonato/form.html'
-    success_url = reverse_lazy('paciente-list')
-    extra_context = {
-        'titulo': 'Excluir Paciente',
-        'botao': 'Sim, excluir!'
-    }
-
-
-class PacienteList(ListView):
-    model = Paciente
-    template_name = 'campeonato/list/jogador.html'
-
-
-class PacienteDetail(DetailView):
-    model = Paciente
-    template_name = 'campeonato/detail/jogador.html'
-
-
-##########################################################
-
-
-class EspecialidadeCreate(CreateView):
-    model = Especialidade
-    fields = ['nome']
-    template_name = 'campeonato/form.html'
-    success_url = reverse_lazy('especialidade-list')
-    extra_context = {
-        'titulo': 'Cadastro de Especialidade',
-        'botao': 'Criar Especialidade'
-    }
-
-
-class EspecialidadeUpdate(UpdateView):
-    model = Especialidade
-    fields = ['nome']
-    template_name = 'campeonato/form.html'
-    success_url = reverse_lazy('especialidade-list')
-    extra_context = {
-        'titulo': 'Editar dados da Especialidade',
-        'botao': 'Atualizar Especialidade'
-    }
-
-
-class EspecialidadeDelete(DeleteView):
-    model = Especialidade
-    template_name = 'campeonato/form.html'
-    success_url = reverse_lazy('especialidade-list')
-    extra_context = {
-        'titulo': 'Excluir Especialidade',
-        'botao': 'Sim, excluir!'
-    }
-
-
-class EspecialidadeList(ListView):
-    model = Especialidade
-    template_name = 'campeonato/list/modalidade.html'
-
-
-class EspecialidadeDetail(DetailView):
-    model = Especialidade
-    template_name = 'campeonato/detail/modalidade.html'
-
-
-##########################################################
-# Views para Medico, Consulta e Atendimento
-
-
-class MedicoCreate(CreateView):
-    model = None
-    # model will be set lazily to avoid circular imports at module import time
-    def get_model(self):
-        from .models import Medico
-        return Medico
-    def get(self, request, *args, **kwargs):
-        self.model = self.get_model()
-        return super().get(request, *args, **kwargs)
-    def post(self, request, *args, **kwargs):
-        self.model = self.get_model()
-        return super().post(request, *args, **kwargs)
-    fields = ['nome', 'usuario']
+class MedicoCreateView(SuccessMessageMixin, CreateView):
+    model = Medico
+    form_class = MedicoForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('medico-list')
-    extra_context = {
-        'titulo': 'Cadastro de Médico',
-        'botao': 'Criar Médico'
-    }
+    success_message = "Médico criado com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Médico'
+        context['form_title'] = 'Novo Médico'
+        return context
 
 
-class MedicoUpdate(MedicoCreate, UpdateView):
-    success_url = reverse_lazy('medico-list')
-    extra_context = {
-        'titulo': 'Editar dados do Médico',
-        'botao': 'Atualizar Médico'
-    }
+class MedicoDetailView(DetailView):
+    model = Medico
+    template_name = 'campeonato/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = f'Médico - {self.object.nome}'
+        return context
 
 
-class MedicoDelete(DeleteView):
-    model = None
-    def get_model(self):
-        from .models import Medico
-        return Medico
-    def dispatch(self, request, *args, **kwargs):
-        self.model = self.get_model()
-        return super().dispatch(request, *args, **kwargs)
+class MedicoUpdateView(SuccessMessageMixin, UpdateView):
+    model = Medico
+    form_class = MedicoForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('medico-list')
-    extra_context = {
-        'titulo': 'Excluir Médico',
-        'botao': 'Sim, excluir!'
-    }
+    success_message = "Médico atualizado com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Editar Médico'
+        context['form_title'] = f'Editar {self.object.nome}'
+        return context
 
 
-class MedicoList(ListView):
-    model = None
-    def get_queryset(self):
-        from .models import Medico
-        self.model = Medico
-        return Medico.objects.all()
-    template_name = 'campeonato/list/medico.html'
+class MedicoDeleteView(SuccessMessageMixin, DeleteView):
+    model = Medico
+    template_name = 'campeonato/confirm_delete.html'
+    success_url = reverse_lazy('medico-list')
+    success_message = "Médico removido com sucesso!"
 
 
-class MedicoDetail(DetailView):
-    model = None
-    def dispatch(self, request, *args, **kwargs):
-        from .models import Medico
-        self.model = Medico
-        return super().dispatch(request, *args, **kwargs)
-    template_name = 'campeonato/detail/medico.html'
+# ==================== CONSULTA VIEWS ====================
+class ConsultaListView(ListView):
+    model = Consulta
+    template_name = 'campeonato/consulta_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Consultas'
+        return context
 
 
-class ConsultaCreate(CreateView):
-    model = None
-    def get_model(self):
-        from .models import Consulta
-        return Consulta
-    def get(self, request, *args, **kwargs):
-        self.model = self.get_model()
-        return super().get(request, *args, **kwargs)
-    def post(self, request, *args, **kwargs):
-        self.model = self.get_model()
-        return super().post(request, *args, **kwargs)
-    fields = ['paciente', 'medico', 'data']
+class ConsultaCreateView(SuccessMessageMixin, CreateView):
+    model = Consulta
+    form_class = ConsultaForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('consulta-list')
-    extra_context = {
-        'titulo': 'Agendar Consulta',
-        'botao': 'Agendar'
-    }
+    success_message = "Consulta criada com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Consulta'
+        context['form_title'] = 'Nova Consulta'
+        return context
 
 
-class ConsultaList(ListView):
-    model = None
-    def get_queryset(self):
-        from .models import Consulta
-        self.model = Consulta
-        return Consulta.objects.all()
-    template_name = 'campeonato/list/consulta.html'
+class ConsultaDetailView(DetailView):
+    model = Consulta
+    template_name = 'campeonato/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = f'Consulta #{self.object.pk}'
+        return context
 
 
-class ConsultaDetail(DetailView):
-    model = None
-    def dispatch(self, request, *args, **kwargs):
-        from .models import Consulta
-        self.model = Consulta
-        return super().dispatch(request, *args, **kwargs)
-    template_name = 'campeonato/detail/consulta.html'
+class ConsultaUpdateView(SuccessMessageMixin, UpdateView):
+    model = Consulta
+    form_class = ConsultaForm
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('consulta-list')
+    success_message = "Consulta atualizada com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Editar Consulta'
+        context['form_title'] = f'Editar Consulta #{self.object.pk}'
+        return context
 
 
-class AtendimentoCreate(CreateView):
-    model = None
-    def get_model(self):
-        from .models import Atendimento
-        return Atendimento
-    def get(self, request, *args, **kwargs):
-        self.model = self.get_model()
-        return super().get(request, *args, **kwargs)
-    def post(self, request, *args, **kwargs):
-        self.model = self.get_model()
-        return super().post(request, *args, **kwargs)
-    fields = ['consulta', 'descricao', 'realizado', 'realizado_em']
+class ConsultaDeleteView(SuccessMessageMixin, DeleteView):
+    model = Consulta
+    template_name = 'campeonato/confirm_delete.html'
+    success_url = reverse_lazy('consulta-list')
+    success_message = "Consulta removida com sucesso!"
+
+
+# ==================== ATENDIMENTO VIEWS ====================
+class AtendimentoListView(ListView):
+    model = Atendimento
+    template_name = 'campeonato/atendimento_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Atendimentos'
+        return context
+
+
+class AtendimentoCreateView(SuccessMessageMixin, CreateView):
+    model = Atendimento
+    form_class = AtendimentoForm
     template_name = 'campeonato/form.html'
     success_url = reverse_lazy('atendimento-list')
-    extra_context = {
-        'titulo': 'Registrar Atendimento',
-        'botao': 'Registrar'
-    }
+    success_message = "Atendimento criado com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Atendimento'
+        context['form_title'] = 'Novo Atendimento'
+        return context
 
 
-class AtendimentoList(ListView):
-    model = None
-    def get_queryset(self):
-        from .models import Atendimento
-        self.model = Atendimento
-        return Atendimento.objects.all()
-    template_name = 'campeonato/list/atendimento.html'
+class AtendimentoDetailView(DetailView):
+    model = Atendimento
+    template_name = 'campeonato/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = f'Atendimento #{self.object.pk}'
+        return context
 
 
-class AtendimentoDetail(DetailView):
-    model = None
-    def dispatch(self, request, *args, **kwargs):
-        from .models import Atendimento
-        self.model = Atendimento
-        return super().dispatch(request, *args, **kwargs)
-    template_name = 'campeonato/detail/atendimento.html'
+class AtendimentoUpdateView(SuccessMessageMixin, UpdateView):
+    model = Atendimento
+    form_class = AtendimentoForm
+    template_name = 'campeonato/form.html'
+    success_url = reverse_lazy('atendimento-list')
+    success_message = "Atendimento atualizado com sucesso!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Editar Atendimento'
+        context['form_title'] = f'Editar Atendimento #{self.object.pk}'
+        return context
+
+
+class AtendimentoDeleteView(SuccessMessageMixin, DeleteView):
+    model = Atendimento
+    template_name = 'campeonato/confirm_delete.html'
+    success_url = reverse_lazy('atendimento-list')
+    success_message = "Atendimento removido com sucesso!"
+
