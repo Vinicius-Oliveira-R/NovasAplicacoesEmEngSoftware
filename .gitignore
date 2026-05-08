@@ -1,28 +1,66 @@
-# Ambiente virtual
-AssistenteWeb/
-venv/
-env/
-
 # Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Banco local
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Django
+*.log
+local_settings.py
 db.sqlite3
+/media
+/staticfiles
 
-# VSCode
+# IDE
 .vscode/
-
-# Sistema
+.idea/
+*.swp
+*.swo
+*~
 .DS_Store
 
-# Migrações compiladas
-**/__pycache__/
-
-# Logs
-*.log
-
-# Arquivos .env
+# Environment
 .env
+.env.local
+.env.*.local
+
+# Database
+*.sqlite
+*.sqlite3
+
+# Static files collected
+/static/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+.pytest_cache/
+.coverage
+htmlcov/
+
