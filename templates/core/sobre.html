@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sobre - Sistema de Campeonato{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="display-5 fw-bold mb-4">Sobre o Projeto</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Sobre</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Descrição do Projeto -->
+    <div class="col-md-12">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Descrição do Projeto</h5>
+            </div>
+            <div class="card-body">
+                <p class="lead">
+                    <strong>Sistema de Gerenciamento de Campeonatos e Assistente Médico Web</strong>
+                </p>
+                <p>
+                    Este projeto é uma aplicação Django que integra o gerenciamento de campeonatos esportivos 
+                    com um sistema de assistência médica. O sistema permite:
+                </p>
+                <ul>
+                    <li><strong>Gerenciamento de Campeonatos:</strong> Criar, editar e gerenciar campeonatos com múltiplas modalidades</li>
+                    <li><strong>Controle de Jogadores:</strong> Registrar jogadores, vincular a campus e gerenciar suas participações</li>
+                    <li><strong>Inscrições:</strong> Gerenciar inscrições de times em campeonatos com confirmação</li>
+                    <li><strong>Jogos e Resultados:</strong> Registrar jogos, resultados e determinar vencedores</li>
+                    <li><strong>Sistema Médico:</strong> Controlar consultas médicas, atendimentos e especialidades</li>
+                    <li><strong>Integração Cross-Domain:</strong> Proxy models para reutilizar entidades entre domínios</li>
+                </ul>
+                <p class="text-muted mt-3">
+                    <em>Desenvolvido como projeto final do 1º trimestre da disciplina de Novas Aplicações em Engenharia de Software</em>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diagrama de Casos de Uso -->
+    <div class="col-md-12">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-diagram-project"></i> Diagrama de Casos de Uso</h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <div class="bg-light p-4 rounded" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+                        <div>
+                            <img src="{% static 'img/use-case-diagram.png' %}" alt="Diagrama de Casos de Uso" class="img-fluid" onerror="this.style.display='none'">
+                            <p class="text-muted mt-3">
+                                <i class="fas fa-image"></i> Insira a imagem do diagrama de casos de uso em <code>static/img/use-case-diagram.png</code>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6>Atores e Casos de Uso Principais:</h6>
+                    <ul>
+                        <li><strong>Administrador:</strong> Gerencia campeonatos, modalidades e etapas</li>
+                        <li><strong>Coordenador:</strong> Registra jogadores e gerencia inscrições</li>
+                        <li><strong>Médico:</strong> Realiza consultas e atendimentos</li>
+                        <li><strong>Jogador/Paciente:</strong> Participa de campeonatos e consultas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diagrama de Classes -->
+    <div class="col-md-12">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-sitemap"></i> Diagrama de Classes</h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <div class="bg-light p-4 rounded" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+                        <div>
+                            <img src="{% static 'img/class-diagram.png' %}" alt="Diagrama de Classes" class="img-fluid" onerror="this.style.display='none'">
+                            <p class="text-muted mt-3">
+                                <i class="fas fa-image"></i> Insira a imagem do diagrama de classes em <code>static/img/class-diagram.png</code>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6>Classes Principais do Modelo:</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="badge bg-primary p-2">Campus</div>
+                            <div class="badge bg-primary p-2">Modalidade</div>
+                            <div class="badge bg-primary p-2">Etapa</div>
+                            <div class="badge bg-primary p-2">Jogador</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="badge bg-success p-2">Campeonato</div>
+                            <div class="badge bg-success p-2">Inscrição</div>
+                            <div class="badge bg-success p-2">Jogo</div>
+                            <div class="badge bg-success p-2">Medico</div>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <div class="badge bg-danger p-2">Consulta</div>
+                        <div class="badge bg-danger p-2">Atendimento</div>
+                        <div class="badge bg-warning p-2">Paciente (Proxy)</div>
+                        <div class="badge bg-warning p-2">Especialidade (Proxy)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tecnologias Utilizadas -->
+    <div class="col-md-12">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fas fa-cogs"></i> Tecnologias Utilizadas</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <h6 class="fw-bold">Backend:</h6>
+                        <ul>
+                            <li>Django 5.2.11 (Web Framework)</li>
+                            <li>PostgreSQL (Banco de Dados via Neon.tech)</li>
+                            <li>Django Crispy Forms (Formulários)</li>
+                            <li>Python 3.12</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold">Frontend:</h6>
+                        <ul>
+                            <li>Bootstrap 5 (Framework CSS)</li>
+                            <li>Font Awesome (Ícones)</li>
+                            <li>HTML5 & CSS3</li>
+                            <li>Template Django Templating</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Autores -->
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="fas fa-users"></i> Informações</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Disciplina:</strong> Novas Aplicações em Engenharia de Software</p>
+                <p><strong>Período:</strong> 1º Trimestre de 2026</p>
+                <p><strong>Data de Conclusão:</strong> 08 de Maio de 2026</p>
+                <p><strong>Status:</strong> <span class="badge bg-success">Completo</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

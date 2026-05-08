@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes - Sistema{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2 class="display-6">Detalhes</h2>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="javascript:history.back()" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">{{ object }}</h5>
+        <hr>
+        <div class="row">
+            <div class="col-md-8">
+                {% for field, value in object.__dict__.items %}
+                    {% if not field.startswith '_' and field != 'id' %}
+                        <p>
+                            <strong>{{ field|title }}:</strong>
+                            {{ value|default:"Não informado" }}
+                        </p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-end bg-light">
+        <a href="{{ request.resolver_match.app_name }}:{{ object.__class__.__name__|lower }}-update" class="btn btn-warning btn-sm">
+            <i class="fas fa-edit"></i> Editar
+        </a>
+        <a href="{{ request.resolver_match.app_name }}:{{ object.__class__.__name__|lower }}-delete" class="btn btn-danger btn-sm">
+            <i class="fas fa-trash"></i> Deletar
+        </a>
+    </div>
+</div>
+{% endblock %}

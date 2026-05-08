@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Exclusão - Sistema{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2 class="display-6">Confirmar Exclusão</h2>
+    </div>
+</div>
+
+<div class="alert alert-danger" role="alert">
+    <i class="fas fa-exclamation-triangle"></i>
+    <strong>Atenção!</strong> Esta ação não pode ser desfeita.
+</div>
+
+<div class="card border-danger shadow-sm">
+    <div class="card-body">
+        <p>Tem certeza de que deseja excluir o seguinte item?</p>
+        <div class="bg-light p-3 rounded mb-4">
+            <h5 class="card-title">{{ object }}</h5>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="javascript:history.back()" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Confirmar Exclusão
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
